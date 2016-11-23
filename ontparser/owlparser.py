@@ -1,4 +1,8 @@
 # -*- encoding: utf-8 -*-
+from contextlib import closing
+
+import requests
+
 from lxml import etree
 
 
@@ -24,7 +28,7 @@ class Node(object):
 
 class Owl(object):
 
-    CONTENT_CHUNK_SIZE = 10 * 1024
+    CONTENT_CHUNK_SIZE = 8192
 
     def get_iri(self, e):
         for irikey in ('IRI', 'abbreviatedIRI'):
@@ -48,7 +52,15 @@ class Owl(object):
             return self.object_properties[iri]
         return None
 
-    def __init__(self, fileobj):
+    def __init__(self, url):
+        conv_url = 'http://owl.cs.manchester.ac.uk/converter/convert'
+        payload = {'ontology': url, 'format': 'OWL/XML'}
+        with closing(requests.get(conv_url, params=payload, stream=True)) as response:
+            if response.status_code != 200:
+                raise RuntimeError(response.text.encode('utf-8'))
+            self.parse(response)
+
+    def parse(self, fileobj):
         nsmap = {}
         nsmap_alt = {}
         event_types = ('start', 'end', 'start-ns')
@@ -61,10 +73,12 @@ class Owl(object):
         self._labels = []
 
         xml_depth = 0
-        while True:
-            chunk = fileobj.read(self.CONTENT_CHUNK_SIZE)
-            if not chunk:
-                break
+        bytes_read = 0
+        for i, chunk in enumerate(fileobj.iter_content(chunk_size=self.CONTENT_CHUNK_SIZE,
+                                                       decode_unicode=True)):
+            bytes_read += len(chunk)
+            if i % 100 == 0:
+                print bytes_read
             parser.feed(chunk)
             for event, elem in parser.read_events():
                 if event == 'start-ns':
