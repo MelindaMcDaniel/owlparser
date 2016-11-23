@@ -1,8 +1,5 @@
 # -*- encoding: utf-8 -*-
 import os
-import requests
-
-from contextlib import closing
 
 from ontparser.owlparser import Owl
 
@@ -179,16 +176,7 @@ class OwlQuality(object):
 
 
 def owl_quality(url, semiotic_quality_flags, domain, debug=False):
-    if url.startswith('http'):
-        with closing(requests.get(url, stream=True)) as response:
-            if response.status_code != 200:
-                raise RuntimeError(response.text.encode('utf-8'))
-            owl = Owl(response.raw)
-    else:
-        # did not start with http; assume this is a local file
-        with open(url) as fileobj:
-            owl = Owl(fileobj)
-
+    owl = Owl(url)
     quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties,
                          semiotic_quality_flags, domain)
     if debug:

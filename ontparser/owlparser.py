@@ -1,4 +1,8 @@
 # -*- encoding: utf-8 -*-
+from contextlib import closing
+
+import requests
+
 from lxml import etree
 
 
@@ -48,7 +52,19 @@ class Owl(object):
             return self.object_properties[iri]
         return None
 
-    def __init__(self, fileobj):
+    def get_fileobj(self, url):
+        if url.startswith('http'):
+            with closing(requests.get(url, stream=True)) as response:
+                if response.status_code != 200:
+                    raise RuntimeError(response.text.encode('utf-8'))
+                return response.raw
+        else:
+            # did not start with http; assume this is a local file
+            with open(url) as fileobj:
+                return fileobj
+
+    def __init__(self, url):
+        fileobj = self.get_fileobj(url)
         nsmap = {}
         nsmap_alt = {}
         event_types = ('start', 'end', 'start-ns')
