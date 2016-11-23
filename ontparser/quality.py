@@ -57,7 +57,7 @@ class OwlQuality(object):
         self.count_definitions = 0
         self.count_defined = 0
         for node in self.nodes.itervalues():
-            set_wn_synonym_count(node)
+            set_wn_synonym_count(node)  # count number of synonyms 
             if node.wn_count > 0:
                 self.count_defined += 1
             self.count_definitions += node.wn_count
@@ -78,6 +78,12 @@ class OwlQuality(object):
         num_attributes = len(self.object_properties) + len(self.datatype_properties)
 
         # ---- Syntactic Layer ----
+        # structure - ratio of subclasses to classes
+        if num_subclasses > 0:
+            self.structure = float(num_classes) / num_subclasses
+        else:
+            self.structure = 0
+        # Two types of richness:    
         # relationship richness = numinheritance / (numinheritance +
         # numnoninheritance)
         total_relationships = num_attributes + num_subclasses
@@ -85,23 +91,18 @@ class OwlQuality(object):
             self.relationship_richness = float(num_subclasses) / total_relationships
         else:
             self.relationship_richness = 0
-        # inheritance richness = num_subclasses/classes
-        if num_subclasses > 0:
-            self.inheritance_richness = float(num_classes) / num_subclasses
-        else:
-            self.inheritance_richness = 0
+
         # Attribute Richness = attributes/classes
         if num_classes > 0:
-            self.attribute_richness = float(num_attributes) / num_classes
+            self.attribute_richness = float(num_attributes) / len(self.nodes)
         else:
             self.attribute_richness = 0
 
-        # Overall Richness = average of all three
+        # Overall Richness = average of both
         self.overall_richness = (self.relationship_richness +
-                                 self.inheritance_richness +
-                                 self.attribute_richness) / 3.0
+                                 self.attribute_richness) / 2.0
 
-        self.overall_syntactic = self.overall_richness  # fix this later
+        self.overall_syntactic = (self.overall_richness + self.structure) / 2.0 
 
         # ---- SEMANTIC layer ----
         # clarity = total number of wordnet definitions/classes
@@ -109,16 +110,25 @@ class OwlQuality(object):
 
         # interpretability = percentage of classes found in wordnet = definedclasses/classes
         self.interp = float(self.count_defined) / len(self.nodes)
-
-        self.overall_semantic = (self.clarity + self.interp)/2.0
+        
+        # precision - ratio of defined words to total number of definitions (1:1 is best)
+        if self.count_definitions > 0:
+            self.precision = float(self.count_defined) / float(self.count_definitions)
+        else:
+            self.precision = 0.0
+        self.overall_semantic = (self.interp + self.precision)/2.0
 
         # ---- PRAGMATIC Layer ----
-        # cohesion = average depth of a leaf node
-        self.cohesion = self.avg_leaf_node_depth
+        # accuracy (aka cohesion) number of ratio of leaf nodes to regular nodes combined with
+        # ratio of leaf nodes to all nodes
+        self.cohesion1 = float(self.avg_leaf_node_depth)/self.deepest_leaf_node
+        self.cohesion2 = float(len(self.leaf_nodes))/len(self.nodes)
+        
+        self.accuracy = (self.cohesion1 + self.cohesion2) /2.0
 
         self.relevance = float(self.keyword_matches) / len(self.nodes)
 
-        self.overall_pragmatic = (self.cohesion + self.relevance) / 2.0   # fix this later
+        self.overall_pragmatic = (self.accuracy + self.relevance) / 2.0   # fix this later
 
         self.overall_social = 0   # fix this later
 
@@ -175,7 +185,7 @@ class OwlQuality(object):
             print node.iri
 
 
-def owl_quality(url, semiotic_quality_flags, domain, debug=False):
+def owl_quality(url, semiotic_quality_flags, domain, debug=True):
     owl = Owl(url)
     quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties,
                          semiotic_quality_flags, domain)
@@ -195,17 +205,24 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False):
             '5. datatype_property_count': len(quality.datatype_properties),
         },
         'semiotic_ontology_metrics': {
-            '1. overall_syntactic': quality.overall_syntactic,
-            '1.1 relationship_richness': quality.relationship_richness,
-            '1.2 inheritance_richness': quality.inheritance_richness,
-            '1.3 attribute_richness': quality.attribute_richness,
-            '2. overall_semantic': quality.overall_semantic,
-            '2.1 clarity': quality.clarity,
+            '0 Overall Quality': quality.overall,
+            '1 Syntactic Quality': quality.overall_syntactic,
+            '1.1 Lawfulness': None,
+            '1.2 Richness': quality.overall_richness,
+            '1.3 Structure': quality.structure,
+            '2 Semantic Quality': quality.overall_semantic,
+            '2.1 Consistency': None,
             '2.2 interpretability': quality.interp,
-            '3. overall_pragmatic': quality.overall_pragmatic,
-            '3.1 relevance': quality.relevance,
-            '3.2 adaptability': quality.cohesion,
-            '4. overall_social': quality.overall_social,
-            '5. overall_quality_including_weights': quality.overall,
+            '2.3 Precision': quality.precision,
+            '3 Pragmatic Quality': quality.overall_pragmatic,
+            '3.1 Accuracy': quality.accuracy,
+            '3.2 Adaptability': None,
+            '3.3 Comprehensiveness': None,
+            '3.4 Ease of Use': None,
+            '3.5 Relevance': quality.relevance,           
+            '4 Social Quality': quality.overall_social,
+            '4.1 Authority': None,
+            '4.2 History': None,
+            '4.3 Recognition': None,            
         }
     }
