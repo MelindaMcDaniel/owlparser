@@ -3,7 +3,7 @@ from json import dumps
 from flask import render_template, request
 
 from ontparser import app
-from ontparser.owlparser import owl_quality
+from ontparser.quality import owl_quality
 
 
 def process_form(request):

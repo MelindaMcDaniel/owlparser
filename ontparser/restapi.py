@@ -1,6 +1,7 @@
 from flask_restful import Resource, Api, reqparse
+
 from ontparser import app
-from ontparser.owlparser import owl_quality
+from ontparser.quality import owl_quality
 
 
 api = Api(app)
