@@ -52,19 +52,8 @@ class Owl(object):
             return self.object_properties[iri]
         return None
 
-    def get_fileobj(self, url):
-        if url.startswith('http'):
-            with closing(requests.get(url, stream=True)) as response:
-                if response.status_code != 200:
-                    raise RuntimeError(response.text.encode('utf-8'))
-                return response.raw
-        else:
-            # did not start with http; assume this is a local file
-            with open(url) as fileobj:
-                return fileobj
-
     def __init__(self, url):
-        fileobj = self.get_fileobj(url)
+        fileobj = get_fileobj(url)
         nsmap = {}
         nsmap_alt = {}
         event_types = ('start', 'end', 'start-ns')
@@ -162,3 +151,28 @@ class Owl(object):
 
 def fixtag(ns, tag, nsmap):
     return '{' + nsmap[ns] + '}' + tag
+
+
+def get_fileobj(url):
+    if url.startswith('http'):
+        return http_fileobj(url)
+    else:
+        # did not start with http; assume this is a local file
+        with open(url) as fileobj:
+            return fileobj
+
+
+def http_fileobj(url):
+    with closing(requests.get(url, stream=True)) as response:
+        if response.status_code != 200:
+            raise RuntimeError(response.text.encode('utf-8'))
+        return response.raw
+
+
+def http_converted_fileobj(url):
+    conv_url = 'http://owl.cs.manchester.ac.uk/converter/convert'
+    payload = {'ontology': url, 'format': 'OWL/XML'}
+    with closing(requests.get(conv_url, params=payload, stream=True)) as response:
+        if response.status_code != 200:
+            raise RuntimeError(response.text.encode('utf-8'))
+        return response.raw
