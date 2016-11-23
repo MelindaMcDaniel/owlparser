@@ -1,0 +1,6 @@
+Need to add these as unit tests:
+
+curl http://localhost:5000/rest/execute\?url\=https://raw.githubusercontent.com/EnvironmentOntology/envo/master/envo.obo
+curl http://localhost:5000/rest/execute\?url\=https://raw.githubusercontent.com/EnvironmentOntology/envo/master/envo.owl
+curl http://localhost:5000/rest/execute\?url\=https://raw.githubusercontent.com/micheldumontier/semanticscience/master/ontology/sio/release/sio-release.owl
+curl http://localhost:5000/rest/execute\?url\=http://tinman.cs.gsu.edu/\~mmcdaniel/converted/other/dumontiertime/dumontiertime.xml/owl.xml\&domain\=loss\&exclude_semiotic_layer\=semantic\&exclude_semiotic_layer\=syntactic
