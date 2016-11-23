@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}Main{% endblock %}
+{% block content %}
+<div id="intro">
+  <h1>DoORS: Domain Ontology Ranking System</h1>
+  <h1>Ontology Quality Assessment Module</h1>
+
+  This web application implements one module of an ontology ranking system. It uses the Semiotic Ontology Metrics Suite to evaluate an ontology on their Syntactic, Semantics, Pragmatics and Social quality. The ontology must be represented in the owl/xml format.  The University of Manchester provides an excellent OWL syntax converter service if conversion is needed.
+  <a href="http://owl.cs.manchester.ac.uk/tools/webapps/owl-syntax-converter/" target="_blank">
+
+      Click here for Syntax Converter.</a> An overall score for the ontology will be calculated based on the semiotic layers selected.
+
+    <form action="" method="post">
+        <div id="checkboxes1">
+            <p><h2>Layer Selection</h2>
+            Select the semiotic layers to be considered.<br>
+        <div id="checkboxes2">
+                <span class="nowrap"><input type="checkbox" name="syntactic" checked>
+                Syntactic (considering formal structure and language)</span><br>
+                <span class="nowrap"><input type="checkbox" name="semantic" checked>
+                Semantic (determining meanings)</span><br>
+                <span class="nowrap"><input type="checkbox" name="pragmatic" checked>
+                Pragmatic (regarding intentions and usefulness)</span><br>
+                <span class="nowrap"><input type="checkbox" name="social" checked>
+                Social (regarding social context) <hidden=""></span><br>
+            </p>
+        </div>
+      </div>
+      <div id="term">
+        <p><h2>Domain Selection</h2>
+            Enter a keyword below to indicate the domain (optional)<br>
+            <input type=text name=term value="">
+        </p>
+      </div>
+    <div id = "submission">
+        <h2>Ontology Selection</h2>
+        Enter the url for an ontology to be assessed.<br>
+      <input type=text size=50 name=url value="http://tinman.cs.gsu.edu/~mmcdaniel/converted/other/dumontiertime/dumontiertime.xml/owl.xml"/></p>
+      <p><input type=submit value="Submit">
+    </div>
+  </form>
+</div>
+
+{% endblock %}

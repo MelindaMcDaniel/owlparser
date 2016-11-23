@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - Ontology Parser</title>
+
+    {% endblock %}
+  </head>
+  <body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+      <br><br><br><br><br><br>
+      &copy; Copyright 2016 by <a href="http://www.gsu.edu/">Melinda H. McDaniel</a>.
+      {% endblock %}
+    </div>
+  </body>
+</html>

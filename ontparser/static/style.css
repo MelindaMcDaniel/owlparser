@@ -1,0 +1,80 @@
+body {
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 3em;
+    padding-bottom: 3em;
+    font-family: "Helvetica",
+    Times, serif;
+    font-size: 20px;
+    color: black;
+    background-color: #EFF8FB;
+    text-align: center;
+}
+h1 {
+    color: navy;
+    text-align: center;
+    font-family: "Papyrus", "Courier New",
+    Times, serif;
+}
+h2 {
+    color: black;
+    font-size: 20px;
+    font-family: "Helvetica",
+    Times, serif;
+    margin: auto;
+    text-align: center;
+}
+input[type=text] {
+    font-size: 18px;
+}
+input[type=submit] {
+    font-size: 20px;
+}
+input[type=checkbox] {
+    text-align: left;
+    font-size: 50px;
+}
+span.nowrap {
+    white-space: nowrap;
+}
+div#intro {
+    background-color: #b0c4de;
+
+    padding:50px;
+    margin:auto;
+    text-align: center;
+}
+div#checkboxes1 {
+
+    text-align: center;
+    width: 80%;
+    clear: both;
+    margin: auto;
+}
+div#checkboxes2 {
+    text-align: left;
+    width: 60%;
+    clear: both;
+    margin: auto;
+}
+div#term {
+    text-align: center;
+    clear: both;
+    margin: auto;
+    width: 80%;
+}
+div#submission {
+    padding:10px;
+    margin: auto;
+    text-align: center;
+    clear: both;
+}
+div#form {
+    background-color: #b0c4de;
+    text-align: center;
+    font-size: 20px;
+}
+div#footer {
+    text-align: left;
+    font-size: 18px;
+}
