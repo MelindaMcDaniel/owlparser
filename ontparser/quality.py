@@ -64,8 +64,12 @@ class OwlQuality(object):
 
         # get number of nodes that match the keyword
         if keyword:
-            self.keyword_matches = sum(1 for node in self.nodes.itervalues()
+             self.keyword_matches = sum(1 for node in self.nodes.itervalues()
                                        if keyword.lower() in unicode(node).lower())
+             self.keyword_matches += sum(1 for node in self.object_properties.itervalues()
+                                       if keyword.lower() in unicode(node).lower())
+             self.keyword_matches += sum(1 for node in self.datatype_properties.itervalues()
+                                        if keyword.lower() in unicode(node).lower())                          
         else:
             self.keyword_matches = 0
 
@@ -99,10 +103,10 @@ class OwlQuality(object):
             self.attribute_richness = 0
 
         # Overall Richness = average of both
-        self.overall_richness = (self.relationship_richness +
-                                 self.attribute_richness) / 2.0
+        self.overall_richness = round(((self.relationship_richness +
+                                 self.attribute_richness) / 2.0),2)
 
-        self.overall_syntactic = (self.overall_richness + self.structure) / 2.0 
+        self.overall_syntactic = round(((self.overall_richness + self.structure) / 2.0),2) 
 
         # ---- SEMANTIC layer ----
         # clarity = total number of wordnet definitions/classes
@@ -124,11 +128,11 @@ class OwlQuality(object):
         self.cohesion1 = float(self.avg_leaf_node_depth)/self.deepest_leaf_node
         self.cohesion2 = float(len(self.leaf_nodes))/len(self.nodes)
         
-        self.accuracy = (self.cohesion1 + self.cohesion2) /2.0
+        self.adaptability = round((self.cohesion1 + self.cohesion2) /2.0, 2)
 
-        self.relevance = float(self.keyword_matches) / len(self.nodes)
+        self.relevance = round(float(self.keyword_matches) / (len(self.nodes)+num_attributes),2)
 
-        self.overall_pragmatic = (self.accuracy + self.relevance) / 2.0   # fix this later
+        self.overall_pragmatic = round((self.adaptability + self.relevance) / 2.0,2)
 
         self.overall_social = 0   # fix this later
 
@@ -136,7 +140,7 @@ class OwlQuality(object):
         if len(self.semiotic_quality_flags):
             filtered_quality_flags = [getattr(self, 'overall_%s' % sqf)
                                       for sqf in self.semiotic_quality_flags]
-            self.overall = sum(filtered_quality_flags) / float(len(filtered_quality_flags))
+            self.overall = round(sum(filtered_quality_flags) / float(len(filtered_quality_flags)),2)
         else:
             self.overall = 0.0
 
@@ -193,6 +197,7 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=True):
         quality.print_tree()
         quality.print_labeled()
         quality.print_unlabeled()
+        print("Matches " + str(quality.keyword_matches))
 
     return {
         'counts': {
@@ -215,8 +220,8 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=True):
             '2.2 interpretability': quality.interp,
             '2.3 Precision': quality.precision,
             '3 Pragmatic Quality': quality.overall_pragmatic,
-            '3.1 Accuracy': quality.accuracy,
-            '3.2 Adaptability': None,
+            '3.1 Accuracy': None,
+            '3.2 Adaptability': quality.adaptability,
             '3.3 Comprehensiveness': None,
             '3.4 Ease of Use': None,
             '3.5 Relevance': quality.relevance,           
