@@ -20,11 +20,13 @@ def set_wn_synonym_count(node):
 
 class OwlQuality(object):
 
-    def __init__(self, nodes, object_properties, datatype_properties,
+    def __init__(self, nodes, object_properties, data_properties, annotation_properties,
                  semiotic_quality_flags=None, keyword=None):
         self.nodes = nodes
         self.object_properties = object_properties
-        self.datatype_properties = datatype_properties
+        self.data_properties = data_properties
+        self.annotation_properties = annotation_properties
+        self.keyword = keyword
         if semiotic_quality_flags is None:
             self.semiotic_quality_flags = set()
         else:
@@ -68,8 +70,10 @@ class OwlQuality(object):
                                        if keyword.lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.object_properties.itervalues()
                                        if keyword.lower() in unicode(node).lower())
-             self.keyword_matches += sum(1 for node in self.datatype_properties.itervalues()
-                                        if keyword.lower() in unicode(node).lower())                          
+             self.keyword_matches += sum(1 for node in self.data_properties.itervalues()
+                                        if keyword.lower() in unicode(node).lower())   
+             self.keyword_matches += sum(1 for node in self.annotation_properties.itervalues()
+                                        if keyword.lower() in unicode(node).lower())                       
         else:
             self.keyword_matches = 0
 
@@ -79,48 +83,49 @@ class OwlQuality(object):
 
         num_classes = len(self.nodes)
         num_subclasses = num_classes - len(self.root_nodes)
-        num_attributes = len(self.object_properties) + len(self.datatype_properties)
+        num_attributes = len(self.object_properties) + len(self.data_properties)
+        num_annotations = len(self.annotation_properties)
 
         # ---- Syntactic Layer ----
         # structure - ratio of subclasses to classes
         if num_subclasses > 0:
-            self.structure = float(num_classes) / num_subclasses
+            self.structure = round(float(num_classes) / num_subclasses,3)
         else:
-            self.structure = 0
+            self.structure = 0.0
         # Two types of richness:    
         # relationship richness = numinheritance / (numinheritance +
         # numnoninheritance)
         total_relationships = num_attributes + num_subclasses
         if total_relationships > 0:
-            self.relationship_richness = float(num_subclasses) / total_relationships
+            self.relationship_richness = round(float(num_subclasses) / total_relationships,3)
         else:
-            self.relationship_richness = 0
+            self.relationship_richness = 0.0
 
         # Attribute Richness = attributes/classes
         if num_classes > 0:
-            self.attribute_richness = float(num_attributes) / len(self.nodes)
+            self.attribute_richness = round(float(num_attributes) / len(self.nodes),3)
         else:
-            self.attribute_richness = 0
+            self.attribute_richness = 0.0
 
         # Overall Richness = average of both
         self.overall_richness = round(((self.relationship_richness +
-                                 self.attribute_richness) / 2.0),2)
+                                 self.attribute_richness) / 2.0),3)
 
-        self.overall_syntactic = round(((self.overall_richness + self.structure) / 2.0),2) 
+        self.overall_syntactic = round(((self.overall_richness + self.structure) / 2.0),3) 
 
         # ---- SEMANTIC layer ----
         # clarity = total number of wordnet definitions/classes
-        self.clarity = float(self.count_definitions) / len(self.nodes)
+        self.clarity = round(float(self.count_definitions) / len(self.nodes),3)
 
         # interpretability = percentage of classes found in wordnet = definedclasses/classes
-        self.interp = float(self.count_defined) / len(self.nodes)
+        self.interp = round(float(self.count_defined) / len(self.nodes),3)
         
         # precision - ratio of defined words to total number of definitions (1:1 is best)
         if self.count_definitions > 0:
-            self.precision = float(self.count_defined) / float(self.count_definitions)
+            self.precision = round(float(self.count_defined) / float(self.count_definitions),3)
         else:
             self.precision = 0.0
-        self.overall_semantic = (self.interp + self.precision)/2.0
+        self.overall_semantic = round((self.interp + self.precision)/2.0,3)
 
         # ---- PRAGMATIC Layer ----
         # accuracy (aka cohesion) number of ratio of leaf nodes to regular nodes combined with
@@ -128,19 +133,25 @@ class OwlQuality(object):
         self.cohesion1 = float(self.avg_leaf_node_depth)/self.deepest_leaf_node
         self.cohesion2 = float(len(self.leaf_nodes))/len(self.nodes)
         
-        self.adaptability = round((self.cohesion1 + self.cohesion2) /2.0, 2)
+        self.adaptability = round((self.cohesion1 + self.cohesion2) /2.0, 3)
 
-        self.relevance = round(float(self.keyword_matches) / (len(self.nodes)+num_attributes),2)
+        self.ease_of_use = round(float(num_annotations)/(num_classes+num_attributes+num_annotations),3)
+        
+        self.relevance = round(float(self.keyword_matches)/(num_classes+num_attributes+num_annotations),3)
 
-        self.overall_pragmatic = round((self.adaptability + self.relevance) / 2.0,2)
+        if self.keyword:
+            self.overall_pragmatic = round((self.adaptability + self.relevance) / 2.0,3)
+        else:
+            self.overall_pragmatic = round(self.adaptability,3) # don't count off for relevance if no keyword entered
+                
 
-        self.overall_social = 0   # fix this later
+        self.overall_social = 0.0   # fix this later
 
         # compute overall_quality
         if len(self.semiotic_quality_flags):
             filtered_quality_flags = [getattr(self, 'overall_%s' % sqf)
                                       for sqf in self.semiotic_quality_flags]
-            self.overall = round(sum(filtered_quality_flags) / float(len(filtered_quality_flags)),2)
+            self.overall = round(sum(filtered_quality_flags) / float(len(filtered_quality_flags)),3)
         else:
             self.overall = 0.0
 
@@ -191,13 +202,12 @@ class OwlQuality(object):
 
 def owl_quality(url, semiotic_quality_flags, domain, debug=True):
     owl = Owl(url)
-    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties,
+    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotation_properties,
                          semiotic_quality_flags, domain)
     if debug:
         quality.print_tree()
         quality.print_labeled()
         quality.print_unlabeled()
-        print("Matches " + str(quality.keyword_matches))
 
     return {
         'counts': {
@@ -207,7 +217,9 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=True):
             '2. deepest_leaf_node': quality.deepest_leaf_node,
             '3. avg_leaf_node_depth': quality.avg_leaf_node_depth,
             '4. object_property_count': len(quality.object_properties),
-            '5. datatype_property_count': len(quality.datatype_properties),
+            '5. data_property_count': len(quality.data_properties),
+            '6. annotation_properties': len(quality.annotation_properties),
+            '7. keyword_matches': quality.keyword_matches,
         },
         'semiotic_ontology_metrics': {
             '0 Overall Quality': quality.overall,
@@ -223,7 +235,7 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=True):
             '3.1 Accuracy': None,
             '3.2 Adaptability': quality.adaptability,
             '3.3 Comprehensiveness': None,
-            '3.4 Ease of Use': None,
+            '3.4 Ease of Use': quality.ease_of_use,
             '3.5 Relevance': quality.relevance,           
             '4 Social Quality': quality.overall_social,
             '4.1 Authority': None,

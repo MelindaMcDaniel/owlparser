@@ -50,6 +50,8 @@ class Owl(object):
             return self.data_properties[iri]
         if iri in self.object_properties:
             return self.object_properties[iri]
+        if iri in self.annotation_properties:
+            return self.annotation_properties[iri]
         return None
 
     def __init__(self, url):
@@ -69,6 +71,7 @@ class Owl(object):
         self.nodes = {}
         self.data_properties = {}
         self.object_properties = {}
+        self.annotation_properties = {}
         self._subclasses = []
         self._labels = []
 
@@ -98,6 +101,8 @@ class Owl(object):
                                          self.data_properties)
                         self.declaration(elem.findall('owl:ObjectProperty', nsmap_alt),
                                          self.object_properties)
+                        self.declaration(elem.findall('owl:AnnotationProperty', nsmap_alt),
+                                         self.annotation_properties)
 
                     elif elem.tag == fixtag('', 'SubClassOf', nsmap):
                         classes = elem.findall('owl:Class', nsmap_alt)
