@@ -200,8 +200,8 @@ class OwlQuality(object):
             print node.iri
 
 
-def owl_quality(url, semiotic_quality_flags, domain, debug=True):
-    owl = Owl(url)
+def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_converted=False):
+    owl = Owl(url, already_converted)
     quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotation_properties,
                          semiotic_quality_flags, domain)
     if debug:

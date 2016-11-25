@@ -28,8 +28,6 @@ class Node(object):
 
 class Owl(object):
 
-    CONTENT_CHUNK_SIZE = 8192
-
     def get_iri(self, e):
         for irikey in ('IRI', 'abbreviatedIRI'):
             if irikey in e.attrib:
@@ -54,15 +52,38 @@ class Owl(object):
             return self.annotation_properties[iri]
         return None
 
-    def __init__(self, url):
-        conv_url = 'http://owl.cs.manchester.ac.uk/converter/convert'
-        payload = {'ontology': url, 'format': 'OWL/XML'}
-        with closing(requests.get(conv_url, params=payload, stream=True)) as response:
-            if response.status_code != 200:
-                raise RuntimeError(response.text.encode('utf-8'))
-            self.parse(response)
+    def __init__(self, url, already_converted=False):
+        self.url = url
+        self.already_converted = already_converted
+        self.parse()
 
-    def parse(self, fileobj):
+    def create_input_generator(self):
+        content_chunk_size = 8192
+        if self.url.startswith('http'):
+            if self.already_converted:
+                print 'Processing {}'.format(self.url)
+                req_url = self.url
+                kwargs = {'stream': True}
+            else:
+                print 'Converting, then processing {}'.format(self.url)
+                req_url = 'http://owl.cs.manchester.ac.uk/converter/convert'
+                payload = {'ontology': self.url, 'format': 'OWL/XML'}
+                kwargs = {'stream': True, 'params': payload}
+            with closing(requests.get(req_url, **kwargs)) as response:
+                if response.status_code != 200:
+                    raise RuntimeError(response.text.encode('utf-8'))
+                for chunk in response.iter_content(chunk_size=content_chunk_size, decode_unicode=True):
+                    yield chunk
+        else:
+            self.local_file = True
+            with open(self.url) as fileobj:
+                while True:
+                    chunk = fileobj.read(content_chunk_size)
+                    if not chunk:
+                        break
+                    yield chunk
+
+    def parse(self):
         nsmap = {}
         nsmap_alt = {}
         event_types = ('start', 'end', 'start-ns')
@@ -77,8 +98,7 @@ class Owl(object):
 
         xml_depth = 0
         bytes_read = 0
-        for i, chunk in enumerate(fileobj.iter_content(chunk_size=self.CONTENT_CHUNK_SIZE,
-                                                       decode_unicode=True)):
+        for i, chunk in enumerate(self.create_input_generator()):
             bytes_read += len(chunk)
             if i % 100 == 0:
                 print bytes_read
