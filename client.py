@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import json
 import requests
 
 
@@ -38,7 +39,7 @@ def main():
 
     print('\nRequest:\n\n%s' % r.url)
     print('\nResponse:\n')
-    print(r.text)
+    print json.dumps(r.json(), sort_keys=True, separators=(',', ': '), indent=4)
 
 
 if __name__ == '__main__':
