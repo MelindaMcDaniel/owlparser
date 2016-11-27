@@ -20,12 +20,12 @@ def set_wn_synonym_count(node):
 
 class OwlQuality(object):
 
-    def __init__(self, nodes, object_properties, data_properties, annotation_properties,
+    def __init__(self, nodes, object_properties, data_properties, annotations,
                  semiotic_quality_flags=None, keyword=None):
         self.nodes = nodes
         self.object_properties = object_properties
         self.data_properties = data_properties
-        self.annotation_properties = annotation_properties
+        self.annotations = annotations
         self.keyword = keyword
         if semiotic_quality_flags is None:
             self.semiotic_quality_flags = set()
@@ -72,7 +72,7 @@ class OwlQuality(object):
                                        if keyword.lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.data_properties.itervalues()
                                         if keyword.lower() in unicode(node).lower())   
-             self.keyword_matches += sum(1 for node in self.annotation_properties.itervalues()
+             self.keyword_matches += sum(1 for node in self.annotations.itervalues()
                                         if keyword.lower() in unicode(node).lower())                       
         else:
             self.keyword_matches = 0
@@ -84,7 +84,7 @@ class OwlQuality(object):
         num_classes = len(self.nodes)
         num_subclasses = num_classes - len(self.root_nodes)
         num_attributes = len(self.object_properties) + len(self.data_properties)
-        num_annotations = len(self.annotation_properties)
+        num_annotations = len(self.annotations)
 
         # ---- Syntactic Layer ----
         # structure - ratio of subclasses to classes
@@ -202,7 +202,7 @@ class OwlQuality(object):
 
 def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_converted=False):
     owl = Owl(url, already_converted)
-    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotation_properties,
+    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,
                          semiotic_quality_flags, domain)
     if debug:
         quality.print_tree()
@@ -218,7 +218,7 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
             '3. avg_leaf_node_depth': quality.avg_leaf_node_depth,
             '4. object_property_count': len(quality.object_properties),
             '5. data_property_count': len(quality.data_properties),
-            '6. annotation_properties': len(quality.annotation_properties),
+            '6. annotations': len(quality.annotations),
             '7. keyword_matches': quality.keyword_matches,
         },
         'semiotic_ontology_metrics': {
