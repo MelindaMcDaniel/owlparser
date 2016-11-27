@@ -16,7 +16,7 @@ def process_form(request):
 
 def html_report(oq):
     # just do a json dump for now
-    dumped = dumps(oq, sort_keys=True, indent=4)
+    dumped = dumps(oq, sort_keys=True, separators=(',', ': '), indent=4)
     return '<pre>%s</pre>' % dumped
 
 
