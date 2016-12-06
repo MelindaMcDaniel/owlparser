@@ -20,12 +20,13 @@ def set_wn_synonym_count(node):
 
 class OwlQuality(object):
 
-    def __init__(self, nodes, object_properties, data_properties, annotations,
+    def __init__(self, nodes, object_properties, data_properties, annotations, comments,
                  semiotic_quality_flags=None, keyword=None):
         self.nodes = nodes
         self.object_properties = object_properties
         self.data_properties = data_properties
         self.annotations = annotations
+        self.comments = comments
         self.keyword = keyword
         if semiotic_quality_flags is None:
             self.semiotic_quality_flags = set()
@@ -140,9 +141,9 @@ class OwlQuality(object):
         self.relevance = round(float(self.keyword_matches)/(num_classes+num_attributes+num_annotations),3)
 
         if self.keyword:
-            self.overall_pragmatic = round((self.adaptability + self.relevance) / 2.0,3)
+            self.overall_pragmatic = round((self.adaptability + self.relevance + self.ease_of_use) / 3.0,3)
         else:
-            self.overall_pragmatic = round(self.adaptability,3) # don't count off for relevance if no keyword entered
+            self.overall_pragmatic = round((self.adaptability + self.ease_of_use)/2.0,3) # don't count off for relevance if no keyword entered
                 
 
         self.overall_social = 0.0   # fix this later
@@ -202,7 +203,7 @@ class OwlQuality(object):
 
 def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_converted=False):
     owl = Owl(url, already_converted)
-    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,
+    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,owl._comments,
                          semiotic_quality_flags, domain)
     if debug:
         quality.print_tree()
@@ -220,6 +221,7 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
             '5. data_property_count': len(quality.data_properties),
             '6. annotations': len(quality.annotations),
             '7. keyword_matches': quality.keyword_matches,
+            '8. comments': len(quality.comments),
         },
         'semiotic_ontology_metrics': {
             '0 Overall Quality': quality.overall,
