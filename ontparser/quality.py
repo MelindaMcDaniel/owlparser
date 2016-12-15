@@ -60,7 +60,7 @@ class OwlQuality(object):
         self.count_definitions = 0
         self.count_defined = 0
         for node in self.nodes.itervalues():
-            set_wn_synonym_count(node)  # count number of synonyms 
+            set_wn_synonym_count(node)  # count number of synonyms
             if node.wn_count > 0:
                 self.count_defined += 1
             self.count_definitions += node.wn_count
@@ -72,9 +72,9 @@ class OwlQuality(object):
              self.keyword_matches += sum(1 for node in self.object_properties.itervalues()
                                        if keyword.lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.data_properties.itervalues()
-                                        if keyword.lower() in unicode(node).lower())   
+                                        if keyword.lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.annotations.itervalues()
-                                        if keyword.lower() in unicode(node).lower())                       
+                                        if keyword.lower() in unicode(node).lower())
         else:
             self.keyword_matches = 0
 
@@ -88,17 +88,19 @@ class OwlQuality(object):
         num_annotations = len(self.annotations)
 
         # ---- Syntactic Layer ----
+        self.lawfulness = 1.0 # no breached rules or it wouldn't parse
         # structure - ratio of subclasses to classes
         if num_subclasses > 0:
-            self.structure = round(float(num_classes) / num_subclasses,3)
+            self.structure = round(float(num_subclasses) / num_classes,3)
         else:
             self.structure = 0.0
-        # Two types of richness:    
-        # relationship richness = numinheritance / (numinheritance +
+        # Two types of richness:
+        # relationship richness = numnoninheritance / (numinheritance +
         # numnoninheritance)
         total_relationships = num_attributes + num_subclasses
+        print(total_relationships)
         if total_relationships > 0:
-            self.relationship_richness = round(float(num_subclasses) / total_relationships,3)
+            self.relationship_richness = round(float(num_attributes) / total_relationships,3)
         else:
             self.relationship_richness = 0.0
 
@@ -112,39 +114,40 @@ class OwlQuality(object):
         self.overall_richness = round(((self.relationship_richness +
                                  self.attribute_richness) / 2.0),3)
 
-        self.overall_syntactic = round(((self.overall_richness + self.structure) / 2.0),3) 
+        self.overall_syntactic = round(((self.overall_richness + self.structure + self.lawfulness) / 3.0),3)
 
         # ---- SEMANTIC layer ----
+        self.consistency = 1.0  # none of these have inconsistencies
         # clarity = total number of wordnet definitions/classes
         self.clarity = round(float(self.count_definitions) / len(self.nodes),3)
 
         # interpretability = percentage of classes found in wordnet = definedclasses/classes
         self.interp = round(float(self.count_defined) / len(self.nodes),3)
-        
+
         # precision - ratio of defined words to total number of definitions (1:1 is best)
         if self.count_definitions > 0:
             self.precision = round(float(self.count_defined) / float(self.count_definitions),3)
         else:
             self.precision = 0.0
-        self.overall_semantic = round((self.interp + self.precision)/2.0,3)
+        self.overall_semantic = round((self.consistency + self.interp + self.precision)/3.0,3)
 
         # ---- PRAGMATIC Layer ----
         # accuracy (aka cohesion) number of ratio of leaf nodes to regular nodes combined with
-        # ratio of leaf nodes to all nodes
+        # ratio of average leaf node depth to all nodes
         self.cohesion1 = float(self.avg_leaf_node_depth)/self.deepest_leaf_node
         self.cohesion2 = float(len(self.leaf_nodes))/len(self.nodes)
-        
-        self.adaptability = round((self.cohesion1 + self.cohesion2) /2.0, 3)
 
-        self.ease_of_use = round(float(num_annotations)/(num_classes+num_attributes+num_annotations),3)
-        
+        self.adaptability = round((self.cohesion1 + self.cohesion2) /2.0, 3)
+        self.comprehensiveness = round(num_classes/113307.0, 3); # 113307 is the max number of classes in the testing set so this value is normalized
+        self.ease_of_use =  round(float(num_annotations)/(num_classes+num_attributes+num_annotations),3)
+
         self.relevance = round(float(self.keyword_matches)/(num_classes+num_attributes+num_annotations),3)
 
         if self.keyword:
-            self.overall_pragmatic = round((self.adaptability + self.relevance + self.ease_of_use) / 3.0,3)
+            self.overall_pragmatic = round((self.adaptability + self.relevance + self.comprehensiveness + self.ease_of_use) / 4.0,3)
         else:
-            self.overall_pragmatic = round((self.adaptability + self.ease_of_use)/2.0,3) # don't count off for relevance if no keyword entered
-                
+            self.overall_pragmatic = round((self.adaptability + self.comprehensiveness + self.ease_of_use)/3.0,3) # don't count off for relevance if no keyword entered
+
 
         self.overall_social = 0.0   # fix this later
 
@@ -222,26 +225,28 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
             '6. annotations': len(quality.annotations),
             '7. keyword_matches': quality.keyword_matches,
             '8. comments': len(quality.comments),
+            '9.5. attribute_richness': quality.attribute_richness,
+            '9. relationship_richness': quality.relationship_richness,
         },
         'semiotic_ontology_metrics': {
             '0 Overall Quality': quality.overall,
             '1 Syntactic Quality': quality.overall_syntactic,
-            '1.1 Lawfulness': None,
+            '1.1 Lawfulness': quality.lawfulness,
             '1.2 Richness': quality.overall_richness,
             '1.3 Structure': quality.structure,
             '2 Semantic Quality': quality.overall_semantic,
-            '2.1 Consistency': None,
+            '2.1 Consistency': quality.consistency,
             '2.2 interpretability': quality.interp,
             '2.3 Precision': quality.precision,
             '3 Pragmatic Quality': quality.overall_pragmatic,
             '3.1 Accuracy': None,
             '3.2 Adaptability': quality.adaptability,
-            '3.3 Comprehensiveness': None,
+            '3.3 Comprehensiveness': quality.comprehensiveness,
             '3.4 Ease of Use': quality.ease_of_use,
-            '3.5 Relevance': quality.relevance,           
+            '3.5 Relevance': quality.relevance,
             '4 Social Quality': quality.overall_social,
             '4.1 Authority': None,
             '4.2 History': None,
-            '4.3 Recognition': None,            
+            '4.3 Recognition': None,
         }
     }
