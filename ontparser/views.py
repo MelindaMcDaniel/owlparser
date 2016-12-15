@@ -10,7 +10,8 @@ def process_form(request):
     flags = ('syntactic', 'semantic', 'pragmatic', 'social')
     semiotic_quality_flags = {flag for flag in flags if flag in request.form}
     domain = request.form['term'].strip()
-    oq = owl_quality(request.form['url'], semiotic_quality_flags, domain)
+    already_converted = 'already_converted' in request.form
+    oq = owl_quality(request.form['url'], semiotic_quality_flags, domain, already_converted=already_converted)
     return html_report(oq)
 
 
