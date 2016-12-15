@@ -49,7 +49,7 @@ class Owl(object):
         if iri in self.object_properties:
             return self.object_properties[iri]
         if iri in self.annotations:
-            return self.annotations[iri]    
+            return self.annotations[iri]
         return None
 
     def __init__(self, url, already_converted=False):
@@ -95,18 +95,16 @@ class Owl(object):
         self.annotations = {}
         self._subclasses = []
         self._labels = []
-        self._comments = []
 
         xml_depth = 0
         bytes_read = 0
         for i, chunk in enumerate(self.create_input_generator()):
             bytes_read += len(chunk)
-            #if i % 100 == 0:
-                #print bytes_read
+            if i % 100 == 0:
+                print bytes_read
             parser.feed(chunk)
-
             for event, elem in parser.read_events():
-                if event == 'start-ns': # start of a namespace declaration
+                if event == 'start-ns':
                     ns, url = elem
                     nsmap[ns] = url
                     if ns == '':
@@ -136,15 +134,11 @@ class Owl(object):
                         properties = elem.findall('owl:AnnotationProperty', nsmap_alt)
                         self.declaration(properties, self.annotations)
                         is_label = False
-                        is_comment = False
-                        num_comments = 0
                         for p in properties:
                             iri = self.get_iri(p)
                             if iri == 'rdfs:label':
                                 is_label = True
-                            elif iri == 'rdfs:comment':
-                                is_comment = True
-
+                                break
 
                         if is_label:
                             # get the label
@@ -154,24 +148,11 @@ class Owl(object):
                             if len(literals) > 1:
                                 raise RuntimeError('Why multiple Literals for label %s?' % elem)
                             label = literals[0].text
-                            #print(label)
 
                             # get IRIs that label will be applied to
                             iris = elem.findall('owl:IRI', nsmap_alt)
                             airis = elem.findall('owl:AbbreviatedIRI', nsmap_alt)
                             self._labels.append([label, [i.text for i in iris + airis]])
-                        elif is_comment:
-                            # get the literal
-                            literals = elem.findall(fixtag('', 'Literal', nsmap))
-                            if len(literals) == 0:
-                                raise RuntimeError('Where is Literal for  %s?' % elem)
-                            if len(literals) > 1:
-                                raise RuntimeError('Why multiple Literals for  %s?' % elem)
-                            comment = literals[0].text    
-                            # get IRIs that comment will be applied to
-                            iris = elem.findall('owl:IRI', nsmap_alt)
-                            airis = elem.findall('owl:AbbreviatedIRI', nsmap_alt)
-                            self._comments.append([comment, [i.text for i in iris + airis]])
 
                     if xml_depth == 2:
                         # clean up children
@@ -200,7 +181,6 @@ class Owl(object):
                 if node:
                     node.label = label
 
-        print(len(self._comments))
-        
+
 def fixtag(ns, tag, nsmap):
     return '{' + nsmap[ns] + '}' + tag

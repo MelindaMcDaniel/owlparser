@@ -7,11 +7,11 @@ body {
     Times, serif;
     font-size: 20px;
     color: black;
-    background-color: #fff0b3;
+    background-color: #EFF8FB;
     text-align: center;
 }
 h1 {
-    color: black;
+    color: navy;
     text-align: center;
     font-family: "Papyrus", "Courier New",
     Times, serif;
@@ -38,7 +38,7 @@ span.nowrap {
     white-space: nowrap;
 }
 div#intro {
-    background-color: #fff0b3;
+    background-color: #b0c4de;
 
     padding:50px;
     margin:auto;
@@ -70,7 +70,7 @@ div#submission {
     clear: both;
 }
 div#form {
-    background-color: #fff0b3;
+    background-color: #b0c4de;
     text-align: center;
     font-size: 20px;
 }
