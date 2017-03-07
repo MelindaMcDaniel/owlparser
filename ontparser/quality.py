@@ -17,17 +17,37 @@ def set_wn_synonym_count(node):
     else:
         node.wn_count = 0
 
+def set_synset_list(node): 
+    synonym_list = []
+    if node.label:
+        for synset in wn.synsets(node.label):
+            fullname = synset.name()
+            fulltuple = fullname.partition('.')
+            synonym_list.append(fulltuple[0])
+    return synonym_list        
 
+def set_keyword_synset_list(keyword): 
+    synonym_list = []
+    for synset in wn.synsets(keyword):
+            fullname = synset.name()
+            fulltuple = fullname.partition('.')
+            if not fulltuple[0] in synonym_list:
+                synonym_list.append(fulltuple[0])
+    return synonym_list        
+    
 class OwlQuality(object):
 
-    def __init__(self, nodes, object_properties, data_properties, annotations, comments,
-                 semiotic_quality_flags=None, keyword=None):
+    def __init__(self, nodes, object_properties, data_properties, annotations, average_annotation_length,
+            comments,average_comment_length, semiotic_quality_flags=None, keyword=None):
         self.nodes = nodes
+        print(len(self.nodes))
         self.object_properties = object_properties
         self.data_properties = data_properties
         self.annotations = annotations
         self.comments = comments
         self.keyword = keyword
+        self.complete_synonym_list = []
+        self.keyword_matches = 0
         if semiotic_quality_flags is None:
             self.semiotic_quality_flags = set()
         else:
@@ -56,25 +76,50 @@ class OwlQuality(object):
             self.deepest_leaf_node = 0
             self.avg_leaf_node_depth = 0
 
-        # get number of synonyms for each one
+        # get number of synonyms for each one and create unique set of synonyms
         self.count_definitions = 0
         self.count_defined = 0
         for node in self.nodes.itervalues():
             set_wn_synonym_count(node)  # count number of synonyms
+            temp_synonym_list = set_synset_list(node) # create synonym list
+            for item in temp_synonym_list:
+                if item not in self.complete_synonym_list:
+                    self.complete_synonym_list.append(item)   # create unique list  
+                    print('adding ' + str(item))    
             if node.wn_count > 0:
                 self.count_defined += 1
             self.count_definitions += node.wn_count
-
-        # get number of nodes that match the keyword
+        
+        total_comment_length = 0
+        for comment in self.comments:
+            total_comment_length += len(comment)
+        if len(self.comments) > 0:
+            self.average_comment_length = total_comment_length/len(self.comments)   
+        else:
+            self.average_comment_length = 0     
+            
+        total_annotation_length = 0
+        for annotation in self.annotations:
+            total_annotation_length += len(annotation)
+        if len(self.annotations) > 0:
+            self.average_annotation_length = total_annotation_length/len(self.annotations)   
+        else:
+            self.average_annotation_length = 0 
+            
+        # get number of nodes that match the keyword or a synonym of the keyword    
+        
         if keyword:
-             self.keyword_matches = sum(1 for node in self.nodes.itervalues()
-                                       if keyword.lower() in unicode(node).lower())
+          for item in set_keyword_synset_list(keyword):
+             self.keyword_matches += sum(1 for node in self.nodes.itervalues()
+                                       if unicode(item).lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.object_properties.itervalues()
-                                       if keyword.lower() in unicode(node).lower())
+                                       if item.lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.data_properties.itervalues()
-                                        if keyword.lower() in unicode(node).lower())
+                                        if item.lower() in unicode(node).lower())
              self.keyword_matches += sum(1 for node in self.annotations.itervalues()
-                                        if keyword.lower() in unicode(node).lower())
+                                        if item.lower() in unicode(node).lower())
+             self.keyword_matches += sum(1 for node in self.comments
+                                        if item.lower() in unicode(node).lower())                           
         else:
             self.keyword_matches = 0
 
@@ -98,7 +143,6 @@ class OwlQuality(object):
         # relationship richness = numnoninheritance / (numinheritance +
         # numnoninheritance)
         total_relationships = num_attributes + num_subclasses
-        print(total_relationships)
         if total_relationships > 0:
             self.relationship_richness = round(float(num_attributes) / total_relationships,3)
         else:
@@ -138,8 +182,11 @@ class OwlQuality(object):
         self.cohesion2 = float(len(self.leaf_nodes))/len(self.nodes)
 
         self.adaptability = round((self.cohesion1 + self.cohesion2) /2.0, 3)
-        self.comprehensiveness = round(num_classes/113307.0, 3); # 113307 is the max number of classes in the testing set so this value is normalized
-        self.ease_of_use =  round(float(num_annotations)/(num_classes+num_attributes+num_annotations),3)
+        #self.comprehensiveness = round(num_classes/113307.0, 3); # 113307 is the max number of classes in the testing set so this value is normalized
+        self.comprehensiveness = round(len(self.complete_synonym_list)/(len(self.nodes)+num_attributes),3) # new definition - comprehensiveness = number of synonyms represented/(nodes+attributes)
+        
+        #self.ease_of_use =  round(float(num_annotations)/(num_classes+num_attributes+num_annotations),3)**** fix this
+        self.ease_of_use = self.average_comment_length + self.average_annotation_length
 
         self.relevance = round(float(self.keyword_matches)/(num_classes+num_attributes+num_annotations),3)
 
@@ -206,7 +253,7 @@ class OwlQuality(object):
 
 def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_converted=False):
     owl = Owl(url, already_converted)
-    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,owl._comments,
+    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,owl.average_annotation_length, owl._comments,owl.average_comment_length,
                          semiotic_quality_flags, domain)
     if debug:
         quality.print_tree()
@@ -215,6 +262,8 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
 
     return {
         'counts': {
+            '10. average_comment_length': quality.average_comment_length,
+            '11. average_annotation_length': quality.average_annotation_length,
             '1. node_count': len(quality.nodes),
             '1.1 root_node_count': len(quality.root_nodes),
             '1.2 leaf_node_count': len(quality.leaf_nodes),
@@ -225,8 +274,8 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
             '6. annotations': len(quality.annotations),
             '7. keyword_matches': quality.keyword_matches,
             '8. comments': len(quality.comments),
-            '9.5. attribute_richness': quality.attribute_richness,
-            '9. relationship_richness': quality.relationship_richness,
+            '9. attribute_richness': quality.attribute_richness,
+            '9.1. relationship_richness': quality.relationship_richness,
         },
         'semiotic_ontology_metrics': {
             '0 Overall Quality': quality.overall,
@@ -239,7 +288,7 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
             '2.2 interpretability': quality.interp,
             '2.3 Precision': quality.precision,
             '3 Pragmatic Quality': quality.overall_pragmatic,
-            '3.1 Accuracy': None,
+            '3.1 Accuracy': quality.overall_pragmatic,
             '3.2 Adaptability': quality.adaptability,
             '3.3 Comprehensiveness': quality.comprehensiveness,
             '3.4 Ease of Use': quality.ease_of_use,

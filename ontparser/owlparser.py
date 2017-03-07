@@ -16,6 +16,7 @@ class Node(object):
         self.max_depth = 0
         self.root_node = False
 
+
     def __unicode__(self):
         if self.label is None:
             return self.iri
@@ -57,6 +58,7 @@ class Owl(object):
         self.already_converted = already_converted
         self.parse()
 
+
     def create_input_generator(self):
         content_chunk_size = 8192
         if self.url.startswith('http'):
@@ -96,6 +98,10 @@ class Owl(object):
         self._subclasses = []
         self._labels = []
         self._comments = []
+        self.average_comment_length = 0
+        self.average_annotation_length = 0
+        self.total_comment_length = 0
+        self.total_annotation_length = 0
 
         xml_depth = 0
         bytes_read = 0
@@ -172,6 +178,8 @@ class Owl(object):
                             iris = elem.findall('owl:IRI', nsmap_alt)
                             airis = elem.findall('owl:AbbreviatedIRI', nsmap_alt)
                             self._comments.append([comment, [i.text for i in iris + airis]])
+                            self.total_comment_length += len(self._comments[0])
+                            self.total_annotation_length += len(self.annotations)
 
                     if xml_depth == 2:
                         # clean up children
@@ -200,7 +208,8 @@ class Owl(object):
                 if node:
                     node.label = label
 
-        print(len(self._comments))
+        print('comments: ' + str(len(self._comments)))
+        print('annotations: ' + str(len(self.annotations)))
         
 def fixtag(ns, tag, nsmap):
     return '{' + nsmap[ns] + '}' + tag
