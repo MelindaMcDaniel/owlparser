@@ -31,7 +31,7 @@ def gui():
 
 @app.route('/about')
 def about():
-    return render_template('about.html', name='Melinda H. McDaniel', date='2016')
+    return render_template('about.html', name='Melinda McDaniel', date='2017')
 
 
 @app.route('/layout_test')

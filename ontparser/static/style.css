@@ -7,7 +7,7 @@ body {
     Times, serif;
     font-size: 20px;
     color: black;
-    background-color: #fff0b3;
+    background-color: #F5CBA7;
     text-align: center;
 }
 h1 {
@@ -38,8 +38,7 @@ span.nowrap {
     white-space: nowrap;
 }
 div#intro {
-    background-color: #fff0b3;
-
+    background-color: #F5CBA7;
     padding:50px;
     margin:auto;
     text-align: center;
@@ -47,7 +46,7 @@ div#intro {
 div#checkboxes1 {
 
     text-align: center;
-    width: 80%;
+    width: 70%;
     clear: both;
     margin: auto;
 }
@@ -70,7 +69,7 @@ div#submission {
     clear: both;
 }
 div#form {
-    background-color: #fff0b3;
+    background-color: #F5CBA7;
     text-align: center;
     font-size: 20px;
 }

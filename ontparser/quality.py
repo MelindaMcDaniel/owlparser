@@ -19,18 +19,18 @@ def set_wn_synonym_count(node):
 
 def set_synset_list(node):
     synonym_list = []
-    if (node.label):
-        print("Label" + node.label)
-        print(len(wn.synsets(node.label)))
-    else:
-        print("none")
-    print(len(wn.synsets("be")))
+    #if (node.label):
+        #print("Label" + node.label)
+        #print(len(wn.synsets(node.label)))
+    #else:
+        #print("none")
+    #print(len(wn.synsets("be")))
     if node.label:
         for synset in wn.synsets(node.label):
             fullname = synset.name()
             fulltuple = fullname.partition('.')
             synonym_list.append(fulltuple[0])
-    print ("number of synonyms: " + str(len(synonym_list)))
+    #print ("number of synonyms: " + str(len(synonym_list)))
     return synonym_list
 
 def get_synonyms(word):
@@ -95,13 +95,13 @@ class OwlQuality(object):
         self.count_definitions = 0
         self.count_defined = 0
         for node in self.nodes.itervalues():
-            print(node)
+            #print(node)
             set_wn_synonym_count(node)  # count number of synonyms
             temp_synonym_list = set_synset_list(node) # create synonym list
             for item in temp_synonym_list:
                 if item not in self.complete_synonym_list:
                     self.complete_synonym_list.append(item)   # create unique list
-                    print('adding ' + str(item))
+                    #print('adding ' + str(item))
             if node.wn_count > 0:
                 self.count_defined += 1
             self.count_definitions += node.wn_count
@@ -286,25 +286,6 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
         quality.print_unlabeled()
 
     return {
-        'counts': {
-            '10. number of synonyms': quality.complete_synonym_list,
-            '11. number of defined terms':quality.count_defined,
-            '10. average_comment_length': quality.average_comment_length,
-            '11. average_annotation_length': quality.average_annotation_length,
-            '1. node_count': len(quality.nodes),
-            '1.1 root_node_count': len(quality.root_nodes),
-            '1.2 leaf_node_count': len(quality.leaf_nodes),
-            '2. deepest_leaf_node': quality.deepest_leaf_node,
-            '3. avg_leaf_node_depth': quality.avg_leaf_node_depth,
-            '4. object_property_count': len(quality.object_properties),
-            '5. data_property_count': len(quality.data_properties),
-            '6. annotations': len(quality.annotations),
-            '7. domain_matches': quality.domain_matches,
-            '8. comments': len(quality.comments),
-            '9. attribute_richness': quality.attribute_richness,
-            '9.1. relationship_richness': quality.relationship_richness,
-
-        },
         'semiotic_ontology_metrics': {
             '0 Overall Quality': quality.overall,
             '1 Syntactic Quality': quality.overall_syntactic,
