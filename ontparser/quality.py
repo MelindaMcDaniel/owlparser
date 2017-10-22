@@ -278,7 +278,8 @@ class OwlQuality(object):
 
 def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_converted=False):
     owl = Owl(url, already_converted)
-    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,owl.average_annotation_length, owl._comments,owl.average_comment_length,
+    quality = OwlQuality(owl.nodes, owl.object_properties, owl.data_properties, owl.annotations,
+                         owl.average_annotation_length, owl._comments,owl.average_comment_length,
                          semiotic_quality_flags, domain)
     if debug:
         quality.print_tree()
@@ -286,25 +287,31 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
         quality.print_unlabeled()
 
     return {
-        'semiotic_ontology_metrics': {
-            '0 Overall Quality': quality.overall,
-            '1 Syntactic Quality': quality.overall_syntactic,
-            '1.1 Lawfulness': quality.lawfulness,
-            '1.2 Richness': quality.overall_richness,
-            '1.3 Structure': quality.structure,
-            '2 Semantic Quality': quality.overall_semantic,
-            '2.1 Consistency': quality.consistency,
-            '2.2 interpretability': quality.interp,
-            '2.3 Precision': quality.precision,
-            '3 Pragmatic Quality': quality.overall_pragmatic,
-            '3.1 Accuracy': None,
-            '3.2 Adaptability': quality.adaptability,
-            '3.3 Comprehensiveness': quality.comprehensiveness,
-            '3.4 Ease of Use': quality.ease_of_use,
-            '3.5 Relevance': quality.relevance,
-            '4 Social Quality': quality.overall_social,
-            '4.1 Authority': None,
-            '4.2 History': None,
-            '4.3 Recognition': None,
+        'overall_quality': quality.overall,
+        'syntactic': {
+            'quality': quality.overall_syntactic,
+            'lawfulness': quality.lawfulness,
+            'richness': quality.overall_richness,
+            'structure': quality.structure,
+        },
+        'semantic': {
+            'quality': quality.overall_semantic,
+            'consistency': quality.consistency,
+            'interpretability': quality.interp,
+            'precision': quality.precision,
+        },
+        'pragmatic': {
+            'quality': quality.overall_pragmatic,
+            'accuracy': None,
+            'adaptability': quality.adaptability,
+            'comprehensiveness': quality.comprehensiveness,
+            'ease_of_use': quality.ease_of_use,
+            'relevance': quality.relevance,
+        },
+        'social': {
+            'quality': quality.overall_social,
+            'authority': None,
+            'history': None,
+            'recognition': None,
         }
     }
