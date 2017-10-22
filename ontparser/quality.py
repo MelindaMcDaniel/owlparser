@@ -33,27 +33,36 @@ def set_synset_list(node):
     print ("number of synonyms: " + str(len(synonym_list)))
     return synonym_list
 
-def set_keyword_synset_list(keyword):
+def get_synonyms(word):
     synonym_list = []
-    for synset in wn.synsets(keyword):
-            fullname = synset.name()
-            fulltuple = fullname.partition('.')
-            if not fulltuple[0] in synonym_list:
-                synonym_list.append(fulltuple[0])
+    for synset in wn.synsets(word):
+        fullname = synset.name()
+        fulltuple = fullname.partition('.')
+        if not fulltuple[0] in synonym_list:
+            synonym_list.append(fulltuple[0])
+    return synonym_list
+
+def split_words(domain):
+    return filter(lambda z: len(z), [x.strip() for x in domain.split(',')])
+
+def set_domain_synset_list(domain):
+    synonym_list = []
+    for keyword in split_words(domain):
+        synonym_list.extend(get_synonyms(keyword))
     return synonym_list
 
 class OwlQuality(object):
 
     def __init__(self, nodes, object_properties, data_properties, annotations, average_annotation_length,
-            comments,average_comment_length, semiotic_quality_flags=None, keyword=None):
+            comments,average_comment_length, semiotic_quality_flags=None, domain=None):
         self.nodes = nodes
         self.object_properties = object_properties
         self.data_properties = data_properties
         self.annotations = annotations
         self.comments = comments
-        self.keyword = keyword
+        self.domain = domain
         self.complete_synonym_list = []
-        self.keyword_matches = 0
+        self.domain_matches = 0
         if semiotic_quality_flags is None:
             self.semiotic_quality_flags = set()
         else:
@@ -113,22 +122,22 @@ class OwlQuality(object):
         else:
             self.average_annotation_length = 0
 
-        # get number of nodes that match the keyword or a synonym of the keyword
+        # get number of nodes that match the domain or a synonym of the domain
 
-        if keyword:
-          for item in set_keyword_synset_list(keyword):
-             self.keyword_matches += sum(1 for node in self.nodes.itervalues()
+        if domain:
+          for item in set_domain_synset_list(domain):
+             self.domain_matches += sum(1 for node in self.nodes.itervalues()
                                        if unicode(item).lower() in unicode(node).lower())
-             self.keyword_matches += sum(1 for node in self.object_properties.itervalues()
+             self.domain_matches += sum(1 for node in self.object_properties.itervalues()
                                        if item.lower() in unicode(node).lower())
-             self.keyword_matches += sum(1 for node in self.data_properties.itervalues()
+             self.domain_matches += sum(1 for node in self.data_properties.itervalues()
                                         if item.lower() in unicode(node).lower())
-             self.keyword_matches += sum(1 for node in self.annotations.itervalues()
+             self.domain_matches += sum(1 for node in self.annotations.itervalues()
                                         if item.lower() in unicode(node).lower())
-             self.keyword_matches += sum(1 for node in self.comments
+             self.domain_matches += sum(1 for node in self.comments
                                         if item.lower() in unicode(node).lower())
         else:
-            self.keyword_matches = 0
+            self.domain_matches = 0
 
         self.semiotic_metric_value_computation()
 
@@ -202,12 +211,12 @@ class OwlQuality(object):
         #self.ease_of_use = self.average_comment_length + self.average_annotation_length
         if self.ease_of_use > 1.0:
             self.ease_of_use = 1.0
-        self.relevance = round(float(self.keyword_matches)/(num_classes+num_attributes+num_annotations),3)
+        self.relevance = round(float(self.domain_matches)/(num_classes+num_attributes+num_annotations),3)
 
-        if self.keyword:
+        if self.domain:
             self.overall_pragmatic = round((self.adaptability + self.relevance + self.ease_of_use) / 3.0,3)
         else:
-            self.overall_pragmatic = round((self.adaptability + self.ease_of_use)/2.0,3) # don't count off for relevance if no keyword entered
+            self.overall_pragmatic = round((self.adaptability + self.ease_of_use)/2.0,3) # don't count off for relevance if no domain entered
 
         if self.overall_syntactic > 1.0:
             self.overall_syntactic = 1
@@ -290,7 +299,7 @@ def owl_quality(url, semiotic_quality_flags, domain, debug=False, already_conver
             '4. object_property_count': len(quality.object_properties),
             '5. data_property_count': len(quality.data_properties),
             '6. annotations': len(quality.annotations),
-            '7. keyword_matches': quality.keyword_matches,
+            '7. domain_matches': quality.domain_matches,
             '8. comments': len(quality.comments),
             '9. attribute_richness': quality.attribute_richness,
             '9.1. relationship_richness': quality.relationship_richness,
