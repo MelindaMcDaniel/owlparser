@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block title %}Results{% endblock %}
+{% block content %}
+<div id="intro">
+  <table>
+    <caption>Syntactic</caption>
+    <tr>
+      <th>Quality</th>
+      <th>Lawfulness</th>
+      <th>Richness</th>
+      <th>Structure</th>
+    </tr>
+    <tr>
+      <td>{{oq['syntactic']['quality']}}</td>
+      <td>{{oq['syntactic']['lawfulness']}}</td>
+      <td>{{oq['syntactic']['richness']}}</td>
+      <td>{{oq['syntactic']['structure']}}</td>
+    </tr>
+  </table>
+
+  <table>
+    <caption>Semantic</caption>
+    <tr>
+      <th>Quality</th>
+      <th>Consistency</th>
+      <th>Interpretability</th>
+      <th>Precision</th>
+    </tr>
+    <tr>
+      <td>{{oq['semantic']['quality']}}</td>
+      <td>{{oq['semantic']['consistency']}}</td>
+      <td>{{oq['semantic']['interpretability']}}</td>
+      <td>{{oq['semantic']['precision']}}</td>
+    </tr>
+  </table>
+
+  <table>
+    <caption>Pragmatic</caption>
+    <tr>
+      <th>Quality</th>
+      <th>Accuracy</th>
+      <th>Adaptability</th>
+      <th>Comprehensiveness</th>
+      <th>Ease of Use</th>
+      <th>Relevance</th>
+    </tr>
+    <tr>
+      <td>{{oq['pragmatic']['quality']}}</td>
+      <td>{{oq['pragmatic']['accuracy']}}</td>
+      <td>{{oq['pragmatic']['adaptability']}}</td>
+      <td>{{oq['pragmatic']['comprehensiveness']}}</td>
+      <td>{{oq['pragmatic']['ease_of_use']}}</td>
+      <td>{{oq['pragmatic']['relevance']}}</td>
+    </tr>
+  </table>
+
+  <table>
+    <caption>Social</caption>
+    <tr>
+      <th>Quality</th>
+      <th>Authority</th>
+      <th>History</th>
+      <th>Recognition</th>
+    </tr>
+    <tr>
+      <td>{{oq['social']['quality']}}</td>
+      <td>{{oq['social']['authority']}}</td>
+      <td>{{oq['social']['history']}}</td>
+      <td>{{oq['social']['recognition']}}</td>
+    </tr>
+  </table>
+
+  <table>
+    <caption>Overall Quality</caption>
+    <tr>
+      <td>{{oq['overall_quality']}}</td>
+    </tr>
+  </table>
+
+
+</div>
+{% endblock %}

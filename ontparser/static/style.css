@@ -77,3 +77,21 @@ div#footer {
     text-align: left;
     font-size: 18px;
 }
+
+table {
+    border: 1px solid black;
+    margin-bottom: 50px;
+    table-layout: auto;
+    width: 800px;
+}
+
+caption {
+    font-size: 30px;
+    padding-bottom: 10px;
+    color: SaddleBrown;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid black;
+}
