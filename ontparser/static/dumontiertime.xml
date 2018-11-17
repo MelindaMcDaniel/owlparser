@@ -1,0 +1,557 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://ontology.dumontierlab.com/time-interval-primitive"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://ontology.dumontierlab.com/time-interval-primitive">
+    <Prefix name="" IRI="http://ontology.dumontierlab.com/time-interval-primitive"/>
+    <Prefix name="dc" IRI="http://purl.org/dc/elements/1.1/"/>
+    <Prefix name="dl" IRI="http://ontology.dumontierlab.com/"/>
+    <Prefix name="fma" IRI="http://purl.obolibrary.org/obo/fma#"/>
+    <Prefix name="obo" IRI="http://purl.obolibrary.org/obo/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="srs" IRI="http://srs/ontologies/srs.owl#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="xsp" IRI="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"/>
+    <Prefix name="doid" IRI="http://purl.obolibrary.org/obo/doid#"/>
+    <Prefix name="obo1" IRI="http://data.bioontology.org/metadata/obo/"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="skos" IRI="http://www.w3.org/2004/02/skos/core#"/>
+    <Prefix name="swrl" IRI="http://www.w3.org/2003/11/swrl#"/>
+    <Prefix name="ncicp" IRI="http://ncicb.nci.nih.gov/xml/owl/EVS/ComplexProperties.xsd#"/>
+    <Prefix name="owl11" IRI="http://www.w3.org/2006/12/owl11#"/>
+    <Prefix name="swrlb" IRI="http://www.w3.org/2003/11/swrlb#"/>
+    <Prefix name="terms" IRI="http://purl.org/dc/terms/"/>
+    <Prefix name="locont" IRI="http://webmind.dico.unimi.it/CARE/locont.owl#"/>
+    <Prefix name="owl2xml" IRI="http://www.w3.org/2006/12/owl2-xml#"/>
+    <Prefix name="protege" IRI="http://protege.stanford.edu/plugins/owl/protege#"/>
+    <Prefix name="metadata" IRI="http://data.bioontology.org/metadata/"/>
+    <Prefix name="oboInOwl" IRI="http://www.geneontology.org/formats/oboInOwl#"/>
+    <Prefix name="owl11xml" IRI="http://www.w3.org/2006/12/owl11-xml#"/>
+    <Prefix name="university" IRI="http://university/ontologies/university.owl#"/>
+    <Prefix name="user_behaviour" IRI="http://www.sme-ecompass.eu/ontologies/2014/6/user_behaviour.owl#"/>
+    <Prefix name="visitor_behaviour" IRI="http://www.sme-ecompass.eu/ontologies/visitor_behaviour.owl#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:creator"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Michel Dumontier</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:subject"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">time</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:format"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">rdf/xml</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:publisher"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">http://dumontierlab.com</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:title"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Time Interval Ontology</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:date"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">October 1, 2007</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="dc:description"/>
+        <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">An ontology of time intervals. From seconds to millenia.</Literal>
+    </Annotation>
+    <Declaration>
+        <Class abbreviatedIRI="dl:April"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:August"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Century"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:DateInterval"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:DateTimeInterval"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Day"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Decade"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:December"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:February"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:FirstQuarter"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:FourthQuarter"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Friday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Hour"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:January"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:July"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:June"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:March"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:May"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Millenium"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Minute"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Monday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Month"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:November"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:October"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Quarter"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Saturday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Second"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:SecondQuarter"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:September"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Sunday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:ThirdQuarter"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Thursday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Tuesday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Wednesday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Week"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Weekday"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Weekend"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dl:Year"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:creator"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:date"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:description"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:format"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:publisher"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:subject"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="dc:title"/>
+    </Declaration>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:April"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:August"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Century"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:DateInterval"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:DateTimeInterval"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Day"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Decade"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:December"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:February"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:FirstQuarter"/>
+        <Class abbreviatedIRI="dl:Quarter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:FourthQuarter"/>
+        <Class abbreviatedIRI="dl:Quarter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Friday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Hour"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:January"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:July"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:June"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:March"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:May"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Millenium"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Minute"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Monday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Month"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:November"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:October"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Quarter"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Saturday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Second"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:SecondQuarter"/>
+        <Class abbreviatedIRI="dl:Quarter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:September"/>
+        <Class abbreviatedIRI="dl:Month"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Sunday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:ThirdQuarter"/>
+        <Class abbreviatedIRI="dl:Quarter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Thursday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Tuesday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Wednesday"/>
+        <Class abbreviatedIRI="dl:Day"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Week"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Weekday"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Weekend"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dl:Year"/>
+        <Class abbreviatedIRI="dl:TimeInterval"/>
+    </SubClassOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:April</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">April</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:August</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">August</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Century</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">century</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:DateInterval</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">date interval</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:DateTimeInterval</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">datetime interval</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Day</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">day</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Decade</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">decade</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:December</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">December</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:February</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">February</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:FirstQuarter</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">first quarter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:FourthQuarter</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">fourth quarter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Friday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">friday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Hour</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">hour</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:January</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">January</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:July</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">July</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:June</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">June</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:March</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">March</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:May</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">May</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Millenium</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Millenium</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Minute</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">minute</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Monday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Monday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Month</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">month</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:November</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">November</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:October</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">October</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Quarter</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">quarter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Saturday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Saturday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Second</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">second</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:SecondQuarter</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">second quarter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:September</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">September</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Sunday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Sunday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:ThirdQuarter</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">third quarter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Thursday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Thursday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:TimeInterval</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">time interval</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Tuesday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Tuesday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Wednesday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Wednesday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Week</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">week</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Weekday</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">weekday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Weekend</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">weekend</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>dl:Year</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">year</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.5-SNAPSHOT) http://owlapi.sourceforge.net -->
+
+
