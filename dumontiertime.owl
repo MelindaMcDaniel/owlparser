@@ -1,0 +1,419 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY dl "http://ontology.dumontierlab.com/" >
+    <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl11xml "http://www.w3.org/2006/12/owl11-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://ontology.dumontierlab.com/time-interval-primitive"
+     xml:base="http://ontology.dumontierlab.com/time-interval-primitive"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:dl="http://ontology.dumontierlab.com/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl11="http://www.w3.org/2006/12/owl11#"
+     xmlns:owl11xml="http://www.w3.org/2006/12/owl11-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="">
+        <dc:creator rdf:datatype="&xsd;string"
+            >Michel Dumontier</dc:creator>
+        <dc:title rdf:datatype="&xsd;string"
+            >Time Interval Ontology</dc:title>
+        <dc:subject rdf:datatype="&xsd;string">time</dc:subject>
+        <dc:description xml:lang="en"
+            >An ontology of time intervals. From seconds to millenia.</dc:description>
+        <dc:publisher rdf:datatype="&xsd;string"
+            >http://dumontierlab.com</dc:publisher>
+        <dc:format rdf:datatype="&xsd;string">rdf/xml</dc:format>
+        <dc:date rdf:datatype="&xsd;string">October 1, 2007</dc:date>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;date"/>
+    <owl:AnnotationProperty rdf:about="&dc;publisher"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&dc;creator"/>
+    <owl:AnnotationProperty rdf:about="&dc;format"/>
+    <owl:AnnotationProperty rdf:about="&dc;subject"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-interval-primitive#Century -->
+
+    <owl:Class rdf:about="&dl;Century">
+        <rdfs:label rdf:datatype="&xsd;string">century</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-interval-primitive#Decade -->
+
+    <owl:Class rdf:about="&dl;Decade">
+        <rdfs:label rdf:datatype="&xsd;string">decade</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-interval-primitive#Millenium -->
+
+    <owl:Class rdf:about="&dl;Millenium">
+        <rdfs:label rdf:datatype="&xsd;string">Millenium</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#April -->
+
+    <owl:Class rdf:about="&dl;April">
+        <rdfs:label rdf:datatype="&xsd;string">April</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#August -->
+
+    <owl:Class rdf:about="&dl;August">
+        <rdfs:label rdf:datatype="&xsd;string">August</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#DateInterval -->
+
+    <owl:Class rdf:about="&dl;DateInterval">
+        <rdfs:label rdf:datatype="&xsd;string">date interval</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#DateTimeInterval -->
+
+    <owl:Class rdf:about="&dl;DateTimeInterval">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >datetime interval</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Day -->
+
+    <owl:Class rdf:about="&dl;Day">
+        <rdfs:label rdf:datatype="&xsd;string">day</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#December -->
+
+    <owl:Class rdf:about="&dl;December">
+        <rdfs:label rdf:datatype="&xsd;string">December</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#February -->
+
+    <owl:Class rdf:about="&dl;February">
+        <rdfs:label rdf:datatype="&xsd;string">February</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#FirstQuarter -->
+
+    <owl:Class rdf:about="&dl;FirstQuarter">
+        <rdfs:label rdf:datatype="&xsd;string">first quarter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Quarter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#FourthQuarter -->
+
+    <owl:Class rdf:about="&dl;FourthQuarter">
+        <rdfs:label rdf:datatype="&xsd;string">fourth quarter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Quarter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Friday -->
+
+    <owl:Class rdf:about="&dl;Friday">
+        <rdfs:label rdf:datatype="&xsd;string">friday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Hour -->
+
+    <owl:Class rdf:about="&dl;Hour">
+        <rdfs:label rdf:datatype="&xsd;string">hour</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#January -->
+
+    <owl:Class rdf:about="&dl;January">
+        <rdfs:label rdf:datatype="&xsd;string">January</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#July -->
+
+    <owl:Class rdf:about="&dl;July">
+        <rdfs:label rdf:datatype="&xsd;string">July</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#June -->
+
+    <owl:Class rdf:about="&dl;June">
+        <rdfs:label rdf:datatype="&xsd;string">June</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#March -->
+
+    <owl:Class rdf:about="&dl;March">
+        <rdfs:label rdf:datatype="&xsd;string">March</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#May -->
+
+    <owl:Class rdf:about="&dl;May">
+        <rdfs:label rdf:datatype="&xsd;string">May</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Minute -->
+
+    <owl:Class rdf:about="&dl;Minute">
+        <rdfs:label rdf:datatype="&xsd;string">minute</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Monday -->
+
+    <owl:Class rdf:about="&dl;Monday">
+        <rdfs:label rdf:datatype="&xsd;string">Monday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Month -->
+
+    <owl:Class rdf:about="&dl;Month">
+        <rdfs:label rdf:datatype="&xsd;string">month</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#November -->
+
+    <owl:Class rdf:about="&dl;November">
+        <rdfs:label rdf:datatype="&xsd;string">November</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#October -->
+
+    <owl:Class rdf:about="&dl;October">
+        <rdfs:label rdf:datatype="&xsd;string">October</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Quarter -->
+
+    <owl:Class rdf:about="&dl;Quarter">
+        <rdfs:label rdf:datatype="&xsd;string">quarter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Saturday -->
+
+    <owl:Class rdf:about="&dl;Saturday">
+        <rdfs:label rdf:datatype="&xsd;string">Saturday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Second -->
+
+    <owl:Class rdf:about="&dl;Second">
+        <rdfs:label rdf:datatype="&xsd;string">second</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#SecondQuarter -->
+
+    <owl:Class rdf:about="&dl;SecondQuarter">
+        <rdfs:label rdf:datatype="&xsd;string">second quarter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Quarter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#September -->
+
+    <owl:Class rdf:about="&dl;September">
+        <rdfs:label rdf:datatype="&xsd;string">September</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Month"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Sunday -->
+
+    <owl:Class rdf:about="&dl;Sunday">
+        <rdfs:label rdf:datatype="&xsd;string">Sunday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#ThirdQuarter -->
+
+    <owl:Class rdf:about="&dl;ThirdQuarter">
+        <rdfs:label rdf:datatype="&xsd;string">third quarter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Quarter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Thursday -->
+
+    <owl:Class rdf:about="&dl;Thursday">
+        <rdfs:label rdf:datatype="&xsd;string">Thursday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#TimeInterval -->
+
+    <owl:Class rdf:about="&dl;TimeInterval">
+        <rdfs:label rdf:datatype="&xsd;string">time interval</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Tuesday -->
+
+    <owl:Class rdf:about="&dl;Tuesday">
+        <rdfs:label rdf:datatype="&xsd;string">Tuesday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Wednesday -->
+
+    <owl:Class rdf:about="&dl;Wednesday">
+        <rdfs:label rdf:datatype="&xsd;string">Wednesday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;Day"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Week -->
+
+    <owl:Class rdf:about="&dl;Week">
+        <rdfs:label rdf:datatype="&xsd;string">week</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Weekday -->
+
+    <owl:Class rdf:about="&dl;Weekday">
+        <rdfs:label rdf:datatype="&xsd;string">weekday</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Weekend -->
+
+    <owl:Class rdf:about="&dl;Weekend">
+        <rdfs:label rdf:datatype="&xsd;string">weekend</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.dumontierlab.com/time-primitive#Year -->
+
+    <owl:Class rdf:about="&dl;Year">
+        <rdfs:label rdf:datatype="&xsd;string">year</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&dl;TimeInterval"/>
+    </owl:Class>
+</rdf:RDF>
